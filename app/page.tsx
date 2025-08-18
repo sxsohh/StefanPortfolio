@@ -8,7 +8,7 @@ type Project = { title: string; year: string; description: string; tags: string[
 
 const PROFILE = {
   name: "Stefan Soh",
-  handle: "Stefanso",
+  handle: "Stefan Soh",
   title: "Student-Athlete • Computer Science & Physics",
   email: "stefanxsoh@gmail.com",
   linkedin: "https://www.linkedin.com/in/stefanxsoh/",
@@ -109,9 +109,9 @@ export default function Home() {
         <div className="panel p-6">
           <h2 className="text-2xl font-bold mb-2 text-[var(--stef-ink)]">Why CS & Physics @ Elmhurst</h2>
           <p className="leading-relaxed">
-            I study Computer Science and Physics because I care about **truth and tools**—understanding how
-            systems work and building software that helps people make better decisions. My goals are to grow
-            into a thoughtful engineer, contribute to open analytics in sport and education, and mentor
+            I study Computer Science and Physics because I care about understanding how
+            building software and ideas that help people make better decisions. My goals are to grow
+            into a thoughtful engineer, contribute to analytics in sport and education, and mentor
             younger students from minority communities so the path into tech feels visible, supported, and
             achievable. I want my work to create **meaningful change**: clearer data for coaches and
             teammates, accessible learning resources, and opportunities for kids who look like me to see
