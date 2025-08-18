@@ -24,3 +24,51 @@ body {
   color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
 }
+/* ==== Stef Theme ==== */
+:root{
+  --stef-ink: #2b6777;   /* deep teal */
+  --stef-mint:#52ab98;   /* accent mint */
+  --stef-ice: #c8d8e4;   /* ice blue */
+  --stef-bg:  #f2f2f2;   /* soft gray */
+  --stef-white:#ffffff;  /* white */
+}
+
+html, body {
+  background: var(--stef-bg);
+  color: #111;
+}
+
+a { color: var(--stef-ink); }
+a:hover { color: var(--stef-mint); }
+
+/* fun “polaroid” photo frame */
+.polaroid {
+  background: var(--stef-white);
+  box-shadow: 0 8px 30px rgba(43,103,119,0.2);
+  border: 2px solid var(--stef-ice);
+  border-radius: 10px;
+  padding: 10px;
+}
+
+/* subtle beveled panel */
+.panel {
+  background: var(--stef-white);
+  border: 2px solid var(--stef-ice);
+  border-radius: 12px;
+  box-shadow: 0 2px 0 #d9e6ef, inset 0 1px 0 #fff;
+}
+
+/* gradient headline */
+.hero-gradient {
+  background: linear-gradient(135deg, var(--stef-ink), var(--stef-mint));
+  color: white;
+}
+
+.badge {
+  display: inline-block;
+  background: var(--stef-ice);
+  border: 1px solid #b9cad7;
+  padding: 2px 10px;
+  border-radius: 999px;
+  font-size: 12px;
+}
