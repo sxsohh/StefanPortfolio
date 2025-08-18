@@ -1,9 +1,14 @@
 "use client";
 
 import Image from "next/image";
+import React, { useEffect, useMemo, useState } from "react";
+
+type LinkItem = { label: string; href: string };
+type Project = { title: string; year: string; description: string; tags: string[]; links?: LinkItem[] };
 
 const PROFILE = {
   name: "Stefan Soh",
+  handle: "Stefanso",
   title: "Student-Athlete • Computer Science & Physics",
   email: "stefanxsoh@gmail.com",
   linkedin: "https://www.linkedin.com/in/stefanxsoh/",
@@ -12,21 +17,53 @@ const PROFILE = {
   video: "https://www.youtube.com/embed/lsdA_NqvzGw",
 };
 
+const DEFAULT_PROJECTS: Project[] = [
+  {
+    title: "Late-Game Fouling Assistant",
+    year: "2025",
+    description:
+      "Computer-vision prototype that identifies players and surfaces real-time FT% to guide intentional fouling.",
+    tags: ["Python", "OpenCV", "Sports Analytics"],
+    links: [{ label: "GitHub", href: "https://github.com/sxsohh" }],
+  },
+];
+
 export default function Home() {
+  const [projects, setProjects] = useState<Project[]>(DEFAULT_PROJECTS);
+  const [query, setQuery] = useState("");
+
+  useEffect(() => {
+    (async () => {
+      try {
+        const r = await fetch("/projects.json", { cache: "no-store" });
+        if (r.ok) setProjects(await r.json());
+      } catch {}
+    })();
+  }, []);
+
+  const filtered = useMemo(() => {
+    const q = query.toLowerCase();
+    return q
+      ? projects.filter(
+          p => p.title.toLowerCase().includes(q) || p.tags.some(t => t.toLowerCase().includes(q))
+        )
+      : projects;
+  }, [projects, query]);
+
   return (
     <main className="min-h-screen">
-      {/* HERO — big color + CTA */}
+      {/* HERO */}
       <section className="hero-gradient">
         <div className="mx-auto max-w-6xl px-6 py-14 sm:py-20 grid md:grid-cols-2 gap-10 items-center">
           <div>
             <span className="badge">Retro • Modern • You</span>
-            <h1 className="mt-4 text-4xl sm:text-6xl font-extrabold leading-[1.05]">
-              Data, Hoops, <span className="opacity-90">and Drive.</span>
+            <h1 className="mt-4 text-5xl sm:text-6xl font-extrabold leading-[1.05]">
+              {PROFILE.handle}
             </h1>
             <p className="mt-4 text-lg sm:text-xl opacity-95">
-              I build data stories and tools that make decisions faster—on the court and in code.
+              I’m Stefan—student-athlete and builder. I use code, data, and discipline from the court to
+              turn curiosity into useful tools, clear stories, and real impact.
             </p>
-
             <div className="mt-8 flex flex-wrap gap-3">
               <a
                 href={PROFILE.resume}
@@ -51,43 +88,49 @@ export default function Home() {
             </div>
           </div>
 
-          {/* Hero photo with “polaroid” frame */}
+          {/* Hero photo */}
           <div className="justify-self-center">
             <div className="polaroid rotate-2">
               <Image
-                src="/b2d57fba-3143-420a-82bd-79fc4a804852.jpg" /* your vertical hoops shot */
-                alt="Stef—court work"
+                src="/b2d57fba-3143-420a-82bd-79fc4a804852.jpg"
+                alt="Stefan on court"
                 width={420}
                 height={520}
                 className="rounded-md object-cover"
                 priority
               />
-              <p className="text-center mt-2 text-sm text-[var(--stef-ink)]">
-                Late-night reps • keep the rhythm
-              </p>
             </div>
           </div>
         </div>
       </section>
 
-      {/* FEATURE PANEL — quick stats/links */}
+      {/* WHY CS & PHYSICS */}
       <section className="mx-auto max-w-6xl px-6 -mt-8">
-        <div className="panel p-5 sm:p-6">
-          <div className="flex flex-wrap items-center gap-4 text-sm">
-            <span className="badge">CS & Physics @ Elmhurst</span>
-            <span className="badge">$20K Scholarship Winner</span>
-            <a className="badge hover:brightness-110" href={PROFILE.github} target="_blank">GitHub</a>
-            <a className="badge hover:brightness-110" href={PROFILE.linkedin} target="_blank">LinkedIn</a>
-            <a className="badge hover:brightness-110" href="/projects.json" target="_blank">projects.json</a>
-          </div>
+        <div className="panel p-6">
+          <h2 className="text-2xl font-bold mb-2 text-[var(--stef-ink)]">Why CS & Physics @ Elmhurst</h2>
+          <p className="leading-relaxed">
+            I study Computer Science and Physics because I care about **truth and tools**—understanding how
+            systems work and building software that helps people make better decisions. My goals are to grow
+            into a thoughtful engineer, contribute to open analytics in sport and education, and mentor
+            younger students from minority communities so the path into tech feels visible, supported, and
+            achievable. I want my work to create **meaningful change**: clearer data for coaches and
+            teammates, accessible learning resources, and opportunities for kids who look like me to see
+            themselves in STEM.
+          </p>
         </div>
       </section>
 
-      {/* MEDIA — scholarship video */}
+      {/* SCHOLARSHIP EXPLAINER */}
       <section className="mx-auto max-w-6xl px-6 py-10">
-        <div className="panel p-5 sm:p-6">
-          <h2 className="text-2xl font-bold mb-3 text-[var(--stef-ink)]">Scholarship Video</h2>
-          <div className="relative w-full" style={{ paddingTop: "56.25%" }}>
+        <div className="panel p-6">
+          <h2 className="text-2xl font-bold mb-3 text-[var(--stef-ink)]">$20K Scholarship — What it Means</h2>
+          <p className="leading-relaxed">
+            I received a competitive **$20,000 scholarship** recognizing applied analytics and potential for impact.
+            My submission combined basketball strategy with computer vision and data storytelling—showing how
+            real-time information can drive smarter late-game decisions. The award helps fund my education and
+            gives me the runway to keep building projects that blend sport, science, and community benefit.
+          </p>
+          <div className="relative w-full mt-5" style={{ paddingTop: "56.25%" }}>
             <iframe
               className="absolute left-0 top-0 h-full w-full rounded-lg border-2 border-[var(--stef-ice)]"
               src={PROFILE.video}
@@ -99,82 +142,68 @@ export default function Home() {
         </div>
       </section>
 
-      {/* GALLERY — make it POP with color cards */}
+      {/* PROJECTS (own section like Media) */}
+      <section className="mx-auto max-w-6xl px-6 pb-10">
+        <div className="panel p-6">
+          <div className="flex flex-col sm:flex-row sm:items-center gap-3">
+            <h2 className="text-2xl font-bold text-[var(--stef-ink)]">Projects</h2>
+            <div className="grow" />
+            <input
+              placeholder="Filter by title or tag (e.g., OpenCV)"
+              className="polaroid p-2 w-full sm:w-80"
+              value={query}
+              onChange={e => setQuery(e.target.value)}
+            />
+          </div>
+          <hr className="my-4" />
+          <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+            {filtered.map(p => (
+              <div key={p.title} className="panel overflow-hidden">
+                <div className="p-4">
+                  <div className="flex items-center justify-between">
+                    <h3 className="font-semibold text-[var(--stef-ink)]">{p.title}</h3>
+                    <span className="text-xs text-gray-500">{p.year}</span>
+                  </div>
+                  <p className="mt-2 text-sm">{p.description}</p>
+                  <div className="mt-3 flex flex-wrap gap-2">
+                    {p.tags.map(t => (
+                      <span key={t} className="badge">{t}</span>
+                    ))}
+                  </div>
+                  {!!p.links?.length && (
+                    <div className="mt-3 flex flex-wrap gap-3">
+                      {p.links.map(l => (
+                        <a key={l.label} href={l.href} target="_blank" className="underline text-[var(--stef-ink)]">
+                          {l.label}
+                        </a>
+                      ))}
+                    </div>
+                  )}
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* GALLERY (simple) */}
       <section className="mx-auto max-w-6xl px-6 pb-14">
-        <h2 className="text-2xl font-bold mb-4 text-[var(--stef-ink)]">Throwback Gallery</h2>
-
+        <h2 className="text-2xl font-bold mb-4 text-[var(--stef-ink)]">Gallery of me</h2>
         <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-          {/* Card 1 */}
           <div className="panel overflow-hidden">
-            <Image
-              src="/5Y2A6586_Original.JPG"
-              alt="Gym jumper"
-              width={900}
-              height={700}
-              className="w-full h-64 object-cover"
-            />
-            <div className="p-4">
-              <h3 className="font-semibold text-[var(--stef-ink)]">Gym Nights</h3>
-              <p className="text-sm mt-1">Reps, rhythm, repeat.</p>
-            </div>
+            <Image src="/5Y2A6586_Original.JPG" alt="gallery image" width={900} height={700} className="w-full h-64 object-cover" />
           </div>
-
-          {/* Card 2 */}
           <div className="panel overflow-hidden">
-            <Image
-              src="/20230515181649_IMG_0429 (2).jpeg"
-              alt="On the move"
-              width={900}
-              height={700}
-              className="w-full h-64 object-cover"
-            />
-            <div className="p-4">
-              <h3 className="font-semibold text-[var(--stef-ink)]">Road Work</h3>
-              <p className="text-sm mt-1">Travel. Train. Tinker.</p>
-            </div>
+            <Image src="/20230515181649_IMG_0429 (2).jpeg" alt="gallery image" width={900} height={700} className="w-full h-64 object-cover" />
           </div>
-
-          {/* Card 3 */}
           <div className="panel overflow-hidden">
-            <Image
-              src="/4B59FFD2-E6BF-4F06-BDE6-2772AF5ADCF9.jpg"
-              alt="Early days"
-              width={900}
-              height={700}
-              className="w-full h-64 object-cover"
-            />
-            <div className="p-4">
-              <h3 className="font-semibold text-[var(--stef-ink)]">Throwback</h3>
-              <p className="text-sm mt-1">Patience. Pace. Perspective.</p>
-            </div>
+            <Image src="/4B59FFD2-E6BF-4F06-BDE6-2772AF5ADCF9.jpg" alt="gallery image" width={900} height={700} className="w-full h-64 object-cover" />
           </div>
-
-          {/* Card 4 */}
           <div className="panel overflow-hidden">
-            <Image
-              src="/IMG_5782.JPG"
-              alt="Sunrise / clouds"
-              width={900}
-              height={700}
-              className="w-full h-64 object-cover"
-            />
-            <div className="p-4">
-              <h3 className="font-semibold text-[var(--stef-ink)]">Above the Clouds</h3>
-              <p className="text-sm mt-1">Breathe. Climb. Repeat.</p>
-            </div>
+            <Image src="/IMG_5782.JPG" alt="gallery image" width={900} height={700} className="w-full h-64 object-cover" />
           </div>
-
-          {/* Card 5 (your vertical shot again with polaroid treatment) */}
-          <div className="panel p-4 sm:p-6 flex items-center justify-center">
-            <div className="polaroid -rotate-1">
-              <Image
-                src="/b2d57fba-3143-420a-82bd-79fc4a804852.jpg"
-                alt="Court work"
-                width={320}
-                height={420}
-                className="rounded-md object-cover"
-              />
-            </div>
+          <div className="panel overflow-hidden">
+            <Image src="/b2d57fba-3143-420a-82bd-79fc4a804852.jpg" alt="gallery image" width={900} height={700} className="w-full h-64 object-cover" />
           </div>
         </div>
       </section>
@@ -183,7 +212,7 @@ export default function Home() {
       <footer className="mx-auto max-w-6xl px-6 pb-10 text-sm">
         <div className="panel p-4 text-center">
           © {new Date().getFullYear()} {PROFILE.name} ·{" "}
-          <a href={`mailto:${PROFILE.email}`}>{PROFILE.email}</a>
+          <a className="underline" href={`mailto:${PROFILE.email}`}>{PROFILE.email}</a>
         </div>
       </footer>
     </main>
