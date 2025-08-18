@@ -61,7 +61,7 @@ export default function Home() {
               {PROFILE.handle}
             </h1>
             <p className="mt-4 text-lg sm:text-xl opacity-95">
-              I’m Stefan—student-athlete and builder. I use code, data, and discipline from the court to
+              I’m Stefan, a student-athlete and builder. I use code, data, and discipline from the court to
               turn curiosity into useful tools, clear stories, and real impact.
             </p>
             <div className="mt-8 flex flex-wrap gap-3">
@@ -113,7 +113,7 @@ export default function Home() {
             building software and ideas that help people make better decisions. My goals are to grow
             into a thoughtful engineer, contribute to analytics in sport and education, and mentor
             younger students from minority communities so the path into tech feels visible, supported, and
-            achievable. I want my work to create **meaningful change**: clearer data for coaches and
+            achievable. I want my work to create meaningful change: clearer data for coaches and
             teammates, accessible learning resources, and opportunities for kids who look like me to see
             themselves in STEM.
           </p>
@@ -123,10 +123,10 @@ export default function Home() {
       {/* SCHOLARSHIP EXPLAINER */}
       <section className="mx-auto max-w-6xl px-6 py-10">
         <div className="panel p-6">
-          <h2 className="text-2xl font-bold mb-3 text-[var(--stef-ink)]">$20K Scholarship — What it Means</h2>
+          <h2 className="text-2xl font-bold mb-3 text-[var(--stef-ink)]">$20K Scholarship and What it Means</h2>
           <p className="leading-relaxed">
-            I received a competitive **$20,000 scholarship** recognizing applied analytics and potential for impact.
-            My submission combined basketball strategy with computer vision and data storytelling—showing how
+            I received a competitive $20,000 scholarship recognizing applied analytics and potential for impact.
+            My submission combined basketball strategy with computer vision and data storytelling, showing how
             real-time information can drive smarter late-game decisions. The award helps fund my education and
             gives me the runway to keep building projects that blend sport, science, and community benefit.
           </p>
@@ -194,7 +194,7 @@ export default function Home() {
             <Image src="/5Y2A6586_Original.JPG" alt="gallery image" width={900} height={700} className="w-full h-64 object-cover" />
           </div>
           <div className="panel overflow-hidden">
-            <Image src="/20230515181649_IMG_0429 (2).jpeg" alt="gallery image" width={900} height={700} className="w-full h-64 object-cover" />
+            <Image src="/230515181649_IMG_0429 (2).jpeg" alt="gallery image" width={900} height={700} className="w-full h-64 object-cover" />
           </div>
           <div className="panel overflow-hidden">
             <Image src="/4B59FFD2-E6BF-4F06-BDE6-2772AF5ADCF9.jpg" alt="gallery image" width={900} height={700} className="w-full h-64 object-cover" />
@@ -203,7 +203,7 @@ export default function Home() {
             <Image src="/IMG_5782.JPG" alt="gallery image" width={900} height={700} className="w-full h-64 object-cover" />
           </div>
           <div className="panel overflow-hidden">
-            <Image src="/b2d57fba-3143-420a-82bd-79fc4a804852.jpg" alt="gallery image" width={900} height={700} className="w-full h-64 object-cover" />
+            <Image src="/b2d57fba-3143-4a-82bd-79fc4a804852.jpg" alt="gallery image" width={900} height={700} className="w-full h-64 object-cover" />
           </div>
         </div>
       </section>
