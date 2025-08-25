@@ -32,3 +32,10 @@ export default function RootLayout({
     </html>
   );
 }
+export const metadata = {
+  title: "Stefan Soh — Portfolio",
+  description: "Data science, analytics, and basketball projects",
+  icons: {
+    icon: "/ss.ico", // points to your file in /public
+  },
+};
