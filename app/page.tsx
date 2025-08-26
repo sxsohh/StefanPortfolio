@@ -111,7 +111,7 @@ export default function Home() {
           <p className="leading-relaxed">
             I study Computer Science and Physics because I care about understanding how
             building software and ideas that help people make better decisions. My goals are to grow
-            into a thoughtful engineer, contribute to analytics in sport and education, and mentor
+            into a thoughtful engineer, contribute to analytics in sports and education, and mentor
             younger students from minority communities so the path into tech feels visible, supported, and
             achievable. I want my work to create meaningful change: clearer data for coaches and
             teammates, accessible learning resources, and opportunities for kids who look like me to see
