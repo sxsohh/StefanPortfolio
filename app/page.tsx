@@ -1,11 +1,9 @@
 "use client";
 
 import Image from "next/image";
-import React, { useEffect, useMemo, useState } from "react";
+import React, { useEffect, useState } from "react";
 
-type LinkItem = { label: string; href: string };
-type Project = { title: string; year: string; description: string; tags: string[]; links?: LinkItem[] };
-
+// Simple profile object
 const PROFILE = {
   name: "Stefan Soh",
   handle: "Stefan Soh",
@@ -17,52 +15,55 @@ const PROFILE = {
   video: "https://www.youtube.com/embed/lsdA_NqvzGw",
 };
 
-const DEFAULT_PROJECTS: Project[] = [
+// just one example project for now
+const PROJECTS = [
   {
     title: "Late-Game Fouling Assistant",
     year: "2025",
     description:
-      "Computer-vision prototype that identifies players and surfaces real-time FT% to guide intentional fouling.",
+      "Computer vision project that identifies players and shows FT% to guide late-game fouling choices.",
     tags: ["Python", "OpenCV", "Sports Analytics"],
     links: [{ label: "GitHub", href: "https://github.com/sxsohh" }],
   },
 ];
 
 export default function Home() {
-  const [projects, setProjects] = useState<Project[]>(DEFAULT_PROJECTS);
+  const [projects, setProjects] = useState(PROJECTS);
   const [query, setQuery] = useState("");
 
+  // try to load more projects from public/projects.json
   useEffect(() => {
-    (async () => {
-      try {
-        const r = await fetch("/projects.json", { cache: "no-store" });
-        if (r.ok) setProjects(await r.json());
-      } catch {}
-    })();
+    fetch("/projects.json")
+      .then((res) => (res.ok ? res.json() : null))
+      .then((data) => {
+        if (data) setProjects(data);
+      })
+      .catch(() => {});
   }, []);
 
-  const filtered = useMemo(() => {
+  // quick filter function for project search
+  const filtered = projects.filter((p) => {
     const q = query.toLowerCase();
-    return q
-      ? projects.filter(
-          p => p.title.toLowerCase().includes(q) || p.tags.some(t => t.toLowerCase().includes(q))
-        )
-      : projects;
-  }, [projects, query]);
+    return (
+      p.title.toLowerCase().includes(q) ||
+      p.tags.some((t) => t.toLowerCase().includes(q))
+    );
+  });
 
   return (
     <main className="min-h-screen">
-      {/* HERO */}
+      {/* HERO SECTION */}
       <section className="hero-gradient">
         <div className="mx-auto max-w-6xl px-6 py-14 sm:py-20 grid md:grid-cols-2 gap-10 items-center">
           <div>
-            <span className="badge">Retro • Modern • You</span>
-            <h1 className="mt-4 text-5xl sm:text-6xl font-extrabold leading-[1.05]">
+            <span className="badge">Portfolio</span>
+            <h1 className="mt-4 text-5xl sm:text-6xl font-extrabold">
               {PROFILE.handle}
             </h1>
-            <p className="mt-4 text-lg sm:text-xl opacity-95">
-              I’m Stefan, a student-athlete and builder. I use code, data, and discipline from the court to
-              turn curiosity into useful tools, clear stories, and real impact.
+            <p className="mt-4 text-lg sm:text-xl">
+              I’m Stefan, a student-athlete and builder. I use code, data, and
+              lessons from basketball to create tools and tell stories with
+              impact.
             </p>
             <div className="mt-8 flex flex-wrap gap-3">
               <a
@@ -70,7 +71,7 @@ export default function Home() {
                 target="_blank"
                 className="rounded-xl bg-white/95 text-[var(--stef-ink)] px-4 py-2 font-semibold shadow hover:bg-white"
               >
-                Download Résumé
+                Download Resume
               </a>
               <a
                 href={PROFILE.linkedin}
@@ -92,7 +93,7 @@ export default function Home() {
           <div className="justify-self-center">
             <div className="polaroid rotate-2">
               <Image
-                src="/b2d57fba-3143-420a-82bd-79fc4a804852.jpg"
+                src="/img_b2d57fba.jpg"
                 alt="Stefan on court"
                 width={420}
                 height={520}
@@ -107,28 +108,34 @@ export default function Home() {
       {/* WHY CS & PHYSICS */}
       <section className="mx-auto max-w-6xl px-6 -mt-8">
         <div className="panel p-6">
-          <h2 className="text-2xl font-bold mb-2 text-[var(--stef-ink)]">Why CS & Physics @ Elmhurst</h2>
-          <p className="leading-relaxed">
-            I study Computer Science and Physics because I care about understanding how
-            building software and ideas that help people make better decisions. My goals are to grow
-            into a thoughtful engineer, contribute to analytics in sports and education, and mentor
-            younger students from minority communities so the path into tech feels visible, supported, and
-            achievable. I want my work to create meaningful change: clearer data for coaches and
-            teammates, accessible learning resources, and opportunities for kids who look like me to see
-            themselves in STEM.
+          <h2 className="text-2xl font-bold mb-2 text-[var(--stef-ink)]">
+            Why CS & Physics @ Elmhurst
+          </h2>
+          <p>
+            I study Computer Science and Physics because I want to understand
+            how systems work and build software that helps people make better
+            decisions. My goal is to grow into a thoughtful engineer,
+            contribute to analytics in sports and education, and mentor younger
+            students from minority communities. I want my work to make real
+            change: clearer data for coaches, accessible learning resources,
+            and opportunities for kids who look like me in STEM.
           </p>
         </div>
       </section>
 
-      {/* SCHOLARSHIP EXPLAINER */}
+      {/* SCHOLARSHIP SECTION */}
       <section className="mx-auto max-w-6xl px-6 py-10">
         <div className="panel p-6">
-          <h2 className="text-2xl font-bold mb-3 text-[var(--stef-ink)]">$20K Scholarship and What it Means</h2>
-          <p className="leading-relaxed">
-            I received a competitive $20,000 scholarship recognizing applied analytics and potential for impact.
-            My submission combined basketball strategy with computer vision and data storytelling, showing how
-            real-time information can drive smarter late-game decisions. The award helps fund my education and
-            gives me the runway to keep building projects that blend sport, science, and community benefit.
+          <h2 className="text-2xl font-bold mb-3 text-[var(--stef-ink)]">
+            $20K Scholarship and What it Means
+          </h2>
+          <p>
+            I received a $20,000 scholarship recognizing applied analytics and
+            potential for impact. My project combined basketball strategy with
+            computer vision and data storytelling, showing how real-time
+            information can drive smarter decisions. The award helps fund my
+            education and gives me space to keep building projects that blend
+            sport, science, and community.
           </p>
           <div className="relative w-full mt-5" style={{ paddingTop: "56.25%" }}>
             <iframe
@@ -142,38 +149,49 @@ export default function Home() {
         </div>
       </section>
 
-      {/* PROJECTS (own section like Media) */}
+      {/* PROJECTS */}
       <section className="mx-auto max-w-6xl px-6 pb-10">
         <div className="panel p-6">
           <div className="flex flex-col sm:flex-row sm:items-center gap-3">
-            <h2 className="text-2xl font-bold text-[var(--stef-ink)]">Projects</h2>
+            <h2 className="text-2xl font-bold text-[var(--stef-ink)]">
+              Projects
+            </h2>
             <div className="grow" />
             <input
-              placeholder="Filter by title or tag (e.g., OpenCV)"
+              placeholder="Search projects..."
               className="polaroid p-2 w-full sm:w-80"
               value={query}
-              onChange={e => setQuery(e.target.value)}
+              onChange={(e) => setQuery(e.target.value)}
             />
           </div>
           <hr className="my-4" />
           <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-            {filtered.map(p => (
+            {filtered.map((p) => (
               <div key={p.title} className="panel overflow-hidden">
                 <div className="p-4">
                   <div className="flex items-center justify-between">
-                    <h3 className="font-semibold text-[var(--stef-ink)]">{p.title}</h3>
+                    <h3 className="font-semibold text-[var(--stef-ink)]">
+                      {p.title}
+                    </h3>
                     <span className="text-xs text-gray-500">{p.year}</span>
                   </div>
                   <p className="mt-2 text-sm">{p.description}</p>
                   <div className="mt-3 flex flex-wrap gap-2">
-                    {p.tags.map(t => (
-                      <span key={t} className="badge">{t}</span>
+                    {p.tags.map((t) => (
+                      <span key={t} className="badge">
+                        {t}
+                      </span>
                     ))}
                   </div>
-                  {!!p.links?.length && (
+                  {p.links && (
                     <div className="mt-3 flex flex-wrap gap-3">
-                      {p.links.map(l => (
-                        <a key={l.label} href={l.href} target="_blank" className="underline text-[var(--stef-ink)]">
+                      {p.links.map((l) => (
+                        <a
+                          key={l.label}
+                          href={l.href}
+                          target="_blank"
+                          className="underline text-[var(--stef-ink)]"
+                        >
                           {l.label}
                         </a>
                       ))}
@@ -186,24 +204,56 @@ export default function Home() {
         </div>
       </section>
 
-      {/* GALLERY (simple) */}
+      {/* GALLERY */}
       <section className="mx-auto max-w-6xl px-6 pb-14">
-        <h2 className="text-2xl font-bold mb-4 text-[var(--stef-ink)]">Gallery of me</h2>
+        <h2 className="text-2xl font-bold mb-4 text-[var(--stef-ink)]">
+          Gallery of me
+        </h2>
         <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
           <div className="panel overflow-hidden">
-            <Image src="/5Y2A6586_Original.JPG" alt="gallery image" width={900} height={700} className="w-full h-64 object-cover" />
+            <Image
+              src="/img_6586.jpg"
+              alt="gallery image"
+              width={900}
+              height={700}
+              className="w-full h-64 object-cover"
+            />
           </div>
           <div className="panel overflow-hidden">
-            <Image src="/230515181649_IMG_0429 (2).jpeg" alt="gallery image" width={900} height={700} className="w-full h-64 object-cover" />
+            <Image
+              src="/img_0429.jpeg"
+              alt="gallery image"
+              width={900}
+              height={700}
+              className="w-full h-64 object-cover"
+            />
           </div>
           <div className="panel overflow-hidden">
-            <Image src="/4B59FFD2-E6BF-4F06-BDE6-2772AF5ADCF9.jpg" alt="gallery image" width={900} height={700} className="w-full h-64 object-cover" />
+            <Image
+              src="/img_4b59ffd2.jpg"
+              alt="gallery image"
+              width={900}
+              height={700}
+              className="w-full h-64 object-cover"
+            />
           </div>
           <div className="panel overflow-hidden">
-            <Image src="/IMG_5782.JPG" alt="gallery image" width={900} height={700} className="w-full h-64 object-cover" />
+            <Image
+              src="/img_5782.jpg"
+              alt="gallery image"
+              width={900}
+              height={700}
+              className="w-full h-64 object-cover"
+            />
           </div>
           <div className="panel overflow-hidden">
-            <Image src="/b2d57fba-3143-4a-82bd-79fc4a804852.jpg" alt="gallery image" width={900} height={700} className="w-full h-64 object-cover" />
+            <Image
+              src="/img_b2d57fba.jpg"
+              alt="gallery image"
+              width={900}
+              height={700}
+              className="w-full h-64 object-cover"
+            />
           </div>
         </div>
       </section>
@@ -212,7 +262,9 @@ export default function Home() {
       <footer className="mx-auto max-w-6xl px-6 pb-10 text-sm">
         <div className="panel p-4 text-center">
           © {new Date().getFullYear()} {PROFILE.name} ·{" "}
-          <a className="underline" href={`mailto:${PROFILE.email}`}>{PROFILE.email}</a>
+          <a className="underline" href={`mailto:${PROFILE.email}`}>
+            {PROFILE.email}
+          </a>
         </div>
       </footer>
     </main>
