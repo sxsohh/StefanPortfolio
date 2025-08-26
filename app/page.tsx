@@ -3,7 +3,7 @@
 import Image from "next/image";
 import React, { useEffect, useState } from "react";
 
-// Simple profile object
+// simple profile info
 const PROFILE = {
   name: "Stefan Soh",
   handle: "Stefan Soh",
@@ -15,7 +15,7 @@ const PROFILE = {
   video: "https://www.youtube.com/embed/lsdA_NqvzGw",
 };
 
-// just one example project for now
+// starter projects; replaced if /public/projects.json exists
 const PROJECTS = [
   {
     title: "Late-Game Fouling Assistant",
@@ -41,10 +41,11 @@ export default function Home() {
       .catch(() => {});
   }, []);
 
-  // quick filter function for project search
+  // quick filter
   const filtered = projects.filter((p) => {
     const q = query.toLowerCase();
     return (
+      q.length === 0 ||
       p.title.toLowerCase().includes(q) ||
       p.tags.some((t) => t.toLowerCase().includes(q))
     );
@@ -52,7 +53,7 @@ export default function Home() {
 
   return (
     <main className="min-h-screen">
-      {/* HERO SECTION */}
+      {/* HERO */}
       <section className="hero-gradient">
         <div className="mx-auto max-w-6xl px-6 py-14 sm:py-20 grid md:grid-cols-2 gap-10 items-center">
           <div>
@@ -89,11 +90,11 @@ export default function Home() {
             </div>
           </div>
 
-          {/* Hero photo */}
+          {/* hero photo (your vertical hoops shot) */}
           <div className="justify-self-center">
             <div className="polaroid rotate-2">
               <Image
-                src="/img_b2d57fba.jpg"
+                src="/b2d57fba-3143-420a-82bd-79fc4a804852.jpg"
                 alt="Stefan on court"
                 width={420}
                 height={520}
@@ -114,16 +115,16 @@ export default function Home() {
           <p>
             I study Computer Science and Physics because I want to understand
             how systems work and build software that helps people make better
-            decisions. My goal is to grow into a thoughtful engineer,
-            contribute to analytics in sports and education, and mentor younger
-            students from minority communities. I want my work to make real
-            change: clearer data for coaches, accessible learning resources,
-            and opportunities for kids who look like me in STEM.
+            decisions. My goal is to grow into a thoughtful engineer, contribute
+            to analytics in sports and education, and mentor younger students
+            from minority communities. I want my work to make real change:
+            clearer data for coaches, accessible learning resources, and
+            opportunities for kids who look like me in STEM.
           </p>
         </div>
       </section>
 
-      {/* SCHOLARSHIP SECTION */}
+      {/* SCHOLARSHIP */}
       <section className="mx-auto max-w-6xl px-6 py-10">
         <div className="panel p-6">
           <h2 className="text-2xl font-bold mb-3 text-[var(--stef-ink)]">
@@ -132,10 +133,10 @@ export default function Home() {
           <p>
             I received a $20,000 scholarship recognizing applied analytics and
             potential for impact. My project combined basketball strategy with
-            computer vision and data storytelling, showing how real-time
-            information can drive smarter decisions. The award helps fund my
-            education and gives me space to keep building projects that blend
-            sport, science, and community.
+            computer vision and data storytelling, showing how real-time info
+            can drive smarter decisions. The award helps fund my education and
+            gives me room to keep building projects that blend sport, science,
+            and community.
           </p>
           <div className="relative w-full mt-5" style={{ paddingTop: "56.25%" }}>
             <iframe
@@ -153,9 +154,7 @@ export default function Home() {
       <section className="mx-auto max-w-6xl px-6 pb-10">
         <div className="panel p-6">
           <div className="flex flex-col sm:flex-row sm:items-center gap-3">
-            <h2 className="text-2xl font-bold text-[var(--stef-ink)]">
-              Projects
-            </h2>
+            <h2 className="text-2xl font-bold text-[var(--stef-ink)]">Projects</h2>
             <div className="grow" />
             <input
               placeholder="Search projects..."
@@ -204,15 +203,13 @@ export default function Home() {
         </div>
       </section>
 
-      {/* GALLERY */}
+      {/* GALLERY (uses your repo's exact filenames) */}
       <section className="mx-auto max-w-6xl px-6 pb-14">
-        <h2 className="text-2xl font-bold mb-4 text-[var(--stef-ink)]">
-          Gallery of me
-        </h2>
+        <h2 className="text-2xl font-bold mb-4 text-[var(--stef-ink)]">Gallery of me</h2>
         <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
           <div className="panel overflow-hidden">
             <Image
-              src="/img_6586.jpg"
+              src="/5Y2A6586_Original.JPG"
               alt="gallery image"
               width={900}
               height={700}
@@ -221,7 +218,7 @@ export default function Home() {
           </div>
           <div className="panel overflow-hidden">
             <Image
-              src="/img_0429.jpeg"
+              src="/4B59FFD2-E6BF-4F06-BDE6-2772AF5ADCF9.jpg"
               alt="gallery image"
               width={900}
               height={700}
@@ -230,7 +227,7 @@ export default function Home() {
           </div>
           <div className="panel overflow-hidden">
             <Image
-              src="/img_4b59ffd2.jpg"
+              src="/IMG_5782.JPG"
               alt="gallery image"
               width={900}
               height={700}
@@ -239,16 +236,7 @@ export default function Home() {
           </div>
           <div className="panel overflow-hidden">
             <Image
-              src="/img_5782.jpg"
-              alt="gallery image"
-              width={900}
-              height={700}
-              className="w-full h-64 object-cover"
-            />
-          </div>
-          <div className="panel overflow-hidden">
-            <Image
-              src="/img_b2d57fba.jpg"
+              src="/b2d57fba-3143-420a-82bd-79fc4a804852.jpg"
               alt="gallery image"
               width={900}
               height={700}
